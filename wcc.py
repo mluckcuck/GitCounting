@@ -1,6 +1,10 @@
 import git, os, shutil, subprocess, time
+from datetime import date 
 from git import Repo
+import matplotlib
+import matplotlib.pyplot as plt
 
+startTime = time.time()
 print("+++ Begin +++")
 
 DIR_NAME = "thesis-temp"
@@ -8,15 +12,37 @@ REMOTE_URL = "https://ml881:Mercian1588@bitbucket.org/ml881/thesis.git"
 FILENAME = "thesis.tex"
 
 
+
 def makeNewDir(name):
 	print("+++ Making Directory", name ,"+++")
-	
-	if os.path.isdir(DIR_NAME):
-		shutil.rmtree(DIR_NAME)
-		
-	os.mkdir(DIR_NAME)
 
-	 
+	if not os.path.exists(name):
+
+		print("+++ Made It +++")
+		os.makedirs(name)
+	else:
+		print("+++ Dir",name,"Already Exists +++" )
+		
+	print("+++ Continue +++")
+
+	
+def cloneRepoInto(directory):
+
+	print("+++ Cloning Repo +++")
+
+	assert os.path.exists(directory)
+
+	if not os.path.exists(directory+"/.git"):
+		
+		git.Repo.clone_from(REMOTE_URL, directory)
+		print("+++ Repo Cloned +++")
+	else:
+		print("+++ Repo Exists +++")
+
+	print("+++ Continue +++")
+
+	
+## THIS IS ONLY CHECKING THE WC OF THE HEAD COMMIT EACH TIME!!!
 def wordCount():
 	""" Counts the words in the file given by FILENAME"""
 	# Runs the included pearl script to count the words
@@ -35,37 +61,69 @@ def wordCount():
 			return split[1]
 	
 
-#makeNewDir(DIR_NAME)
 
-#r = git.Repo.clone_from(REMOTE_URL, DIR_NAME)
+def extractDataFromCommit(commit):
 
-wc = wordCount()
+	print("+++ Extracting Data From Commit +++")
+	
+	
 
-## Next, get the date and commit message from this  commit
+	
+	commitTime = (date.fromtimestamp(commit.committed_date))
 
-repo = Repo(DIR_NAME)
+	commitMessage = commit.message
 
-headcommit = repo.head.commit
-
-name = headcommit.message
-
-
-time.asctime(time.gmtime(headcommit.committed_date))
-commitTime = time.strftime("%a, %d %b %Y %H:%M", time.gmtime(headcommit.committed_date))
+	commitWordCount = wordCount()
+	
+	return (commitTime, commitMessage, commitWordCount)
 
 
+def buildDataList():
 
-## Bank this along with the wordCount
+	print("+++ Build Data List +++")
+	dataLists = ([],[])
 
-print(wc)
-print(name)
+	makeNewDir(DIR_NAME)
 
-print(commitTime)
+	cloneRepoInto(DIR_NAME)
+		
+	
+	repo = Repo(DIR_NAME)
+	git = repo.git
 
-## Go back one commit and do again
+	for commit in list(repo.iter_commits('master')):
+
+		
+		git.checkout(commit)
+		commitTuple = extractDataFromCommit(commit)
+		dataLists[0].append(commitTuple[0])
+		dataLists[1].append(commitTuple[2])
+
+		print(str(commitTuple[0]) + "  " + commitTuple[2])
+		print("+++ Next +++")
+
+	#Quick cleanup
+	git.checkout(repo.head.commit)
+	return dataLists
+
+def plotData(data):
+
+	
+	dates = matplotlib.dates.date2num(data[0])
+	
+	plt.plot_date(dates,data[1], "o-", xdate=True)
+	plt.xlabel('Date')
+	plt.ylabel('Word Count')	
+	plt.title("Thesis Word Count")
+	plt.show()
 
 
 
-## list(repo.iter_commits('master', max_count=50))
 
-print ("+++ DONE +++")
+dataList = buildDataList()
+
+plotData(dataList)
+	
+
+completeTime = round(time.time() - startTime, 2)
+print ("+++ DONE (",completeTime," seconds)+++")	
