@@ -7,9 +7,10 @@ import matplotlib.pyplot as plt
 startTime = time.time()
 print("+++ Begin +++")
 
-DIR_NAME = "thesis-temp"
+DIR_NAME = ".thesis-temp"
 REMOTE_URL = "https://ml881:Mercian1588@bitbucket.org/ml881/thesis.git"
 FILENAME = "thesis.tex"
+TEMP_FILE = ".count.txt"
 
 
 
@@ -48,11 +49,11 @@ def wordCount():
 	# Runs the included pearl script to count the words
 	rootDir = DIR_NAME + "/Big T/"
 	fileAddress = rootDir + FILENAME
-	pipe = subprocess.run(["perl", "texcount/texcount.pl" , "-total" , "-merge" ,  "-out=count.txt", "-dir=" + rootDir ,fileAddress])
+	pipe = subprocess.run(["perl", "texcount/texcount.pl" , "-total" , "-merge" ,  "-out="+TEMP_FILE, "-dir=" + rootDir ,fileAddress])
 
 	
 	# Parse output
-	file = open("count.txt")
+	file = open(TEMP_FILE)
 	contents = file.read().splitlines()
 
 	for c in contents:
@@ -66,9 +67,7 @@ def extractDataFromCommit(commit):
 
 	print("+++ Extracting Data From Commit +++")
 	
-	
-
-	
+		
 	commitTime = (date.fromtimestamp(commit.committed_date))
 
 	commitMessage = commit.message
@@ -91,7 +90,7 @@ def buildDataList():
 	repo = Repo(DIR_NAME)
 	git = repo.git
 
-	for commit in list(repo.iter_commits('master')):
+	for commit in list(repo.iter_commits('master', max_count=3)):
 
 		
 		git.checkout(commit)
@@ -122,8 +121,7 @@ def plotData(data):
 
 dataList = buildDataList()
 
-plotData(dataList)
-	
 
 completeTime = round(time.time() - startTime, 2)
-print ("+++ DONE (",completeTime," seconds)+++")	
+print ("+++ DONE (",completeTime," seconds)+++")
+plotData(dataList)
