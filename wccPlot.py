@@ -17,7 +17,7 @@ def loadFromFile(fileName):
 
     return dataTuple
 
-def plotData(fileName, annotate):
+def plotData(fileName, humanFileName, annotate):
     """ Plots the data from the JSON file """
 
     data = loadFromFile(fileName)
@@ -47,7 +47,7 @@ def plotData(fileName, annotate):
 
     plt.xlabel('Date')
     plt.ylabel('Word Count')
-    plt.title("Thesis Word Count")
+    plt.title(humanFileName + " Word Count")
 
     plt.savefig(fileName+'Plot.png', bbox_inches='tight')
     plt.savefig(fileName+'Plot.pdf', bbox_inches='tight')
