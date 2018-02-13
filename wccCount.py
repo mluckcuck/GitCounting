@@ -13,11 +13,15 @@ def findFileAddress(currentDir, fileName):
         if fileName in files:
             return root, os.path.join(root, fileName)
 
+    return (None,None)
+
 
 def wordCount(repoDir, fileName, tempFile):
     """ Counts the words in the file, fileName using the included Pearl script """
 
     rootDir,fileAddress = findFileAddress(repoDir, fileName)
+    if rootDir is None or fileAddress is None:
+        return 0
 
     subprocess.run(["perl", "texcount/texcount.pl", "-total", "-merge",
                     "-out=" + tempFile, "-dir=" + rootDir, fileAddress])

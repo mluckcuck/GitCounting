@@ -42,7 +42,8 @@ def plotData(fileName, annotate):
     if annotate is True:
         #annotate every thenth point with it's commit message
         for x, y, label in zip(dateList, data[1], data[2][0:len(data[2]):10]):
-            ax.annotate(label, xy=(x, y))
+            # TODO: this doesn't print the message by the point, but up in the top right corner, all on top of each other
+            ax.annotate(label, xy=(x, y), xytext=(x,y))
 
     plt.xlabel('Date')
     plt.ylabel('Word Count')
