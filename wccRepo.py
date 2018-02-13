@@ -28,7 +28,6 @@ def cloneRepo(remoteUrl, directory):
     assert os.path.exists(directory)
 
     if not os.path.exists(directory + "/.git"):
-
         git.Repo.clone_from(remoteUrl, directory)
         print("+++ Repo Cloned +++")
     else:

@@ -56,7 +56,8 @@ def buildDataList(repoDir, fileName, tempFile):
     repo = Repo(repoDir)
     git = repo.git
 
-    for commit in list(repo.iter_commits('master', max_count=3)):
+    #for commit in list(repo.iter_commits('master', max_count=3)):
+    for commit in list(repo.iter_commits('master')):
         git.checkout(commit)
         commitTuple = extractDataFromCommit(repoDir, commit, fileName, tempFile)
         dataLists["commitDates"].append(str(commitTuple[0]))
@@ -68,5 +69,5 @@ def buildDataList(repoDir, fileName, tempFile):
 
     #Quick cleanup
     git.checkout(repo.head.commit)
-    
+
     return dataLists
