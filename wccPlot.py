@@ -2,11 +2,8 @@
 
 import matplotlib
 import matplotlib.pyplot as plt
-from datetime import date
 from datetime import datetime
-from ast import literal_eval as make_tuple
 import json
-import time
 
 
 def loadFromFile(fileName):
@@ -17,7 +14,7 @@ def loadFromFile(fileName):
 
     jsonData = json.load(jsonFile)
 
-    dataTuple = (jsonData["commitDates"], jsonData["wordCounts"])
+    dataTuple = (jsonData["commitDates"], jsonData["wordCounts"], jsonData["commitMsgs"])
 
     return dataTuple
 
@@ -39,7 +36,13 @@ def plotData(fileName):
 
     dateList = matplotlib.dates.date2num(dateList)
 
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
     plt.plot_date(dateList, data[1], "o-", xdate=True)
+    #annotate every thenth point with it's commit message
+    for x, y, label in zip(dateList, data[1], data[2][0:len(data[2]):10]):
+        ax.annotate(label, xy=(x, y), textcoords='data')
+
     plt.xlabel('Date')
     plt.ylabel('Word Count')
     plt.title("Thesis Word Count")

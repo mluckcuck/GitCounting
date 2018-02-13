@@ -29,7 +29,6 @@ wccRepo.makeNewDir(DIR_NAME)
 wccRepo.cloneRepo(REMOTE_URL, DIR_NAME)
 
 dataList = wccCount.buildDataList(DIR_NAME, FILENAME, TEMP_FILE)
-#dataList = {"wordCounts": [52705, 52705, 52705], "commitDates": ["2017-06-27", "2017-05-17", "2017-05-12"], "commitMsgs": ["\n\nRegen with CORRECT CIRUCS SYMBOLS NOW", "Removed double bib entry in TOC\n", "\n\nRSAT formatting updates"]}
 jsonDataFile = open(DATA_FILE, "w")
 json.dump(dataList, jsonDataFile)
 print(jsonDataFile)
