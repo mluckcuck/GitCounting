@@ -7,6 +7,8 @@ import os
 
 
 def makeNewDir(name):
+    """ Makes a new directory, if needed """
+
     print("+++ Making Directory", name, "+++")
 
     if not os.path.exists(name):
@@ -20,6 +22,8 @@ def makeNewDir(name):
 
 
 def cloneRepo(remoteUrl, directory):
+    """ Clones the git repository from remoteURL into directory"""
+
     print("+++ Cloning Repo +++")
     assert os.path.exists(directory)
 

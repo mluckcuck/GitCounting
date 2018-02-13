@@ -7,10 +7,9 @@ import json
 
 
 def loadFromFile(fileName):
+    """ Loads the data from the JSON file """
 
-    print("Load from", fileName)
     jsonFile = open(fileName, "r")
-    print(jsonFile)
 
     jsonData = json.load(jsonFile)
 
@@ -20,6 +19,7 @@ def loadFromFile(fileName):
 
 
 def plotData(fileName):
+    """ Plots the data from the JSON file """
 
     data = loadFromFile(fileName)
 

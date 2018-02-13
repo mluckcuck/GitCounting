@@ -2,15 +2,23 @@
 git repo (remote or local) and outputs the data to a local file
 """
 import subprocess
+import os
 from datetime import date
 from git import Repo
 
+def findFileAddress(currentDir, fileName):
+    """Finds the full address of the (first) file that has the right name """
+
+    for root, dirs, files in os.walk(currentDir):
+        if fileName in files:
+            return root, os.path.join(root, fileName)
+
 
 def wordCount(repoDir, fileName, tempFile):
-    """ Counts the words in the file given by FILENAME """
-    #Runs the included pearl script to count the words
-    rootDir = repoDir + "/Big T/"
-    fileAddress = rootDir + fileName
+    """ Counts the words in the file, fileName using the included Pearl script """
+
+    rootDir,fileAddress = findFileAddress(repoDir, fileName)
+
     subprocess.run(["perl", "texcount/texcount.pl", "-total", "-merge",
                     "-out=" + tempFile, "-dir=" + rootDir, fileAddress])
 
@@ -18,6 +26,7 @@ def wordCount(repoDir, fileName, tempFile):
     file = open(tempFile)
     contents = file.read().splitlines()
 
+    #Bit of a hack
     for c in contents:
         if c.startswith("Words in text:"):
             split = c.split(": ")
@@ -25,6 +34,7 @@ def wordCount(repoDir, fileName, tempFile):
 
 
 def extractDataFromCommit(repoDir, commit, fileName, tempFile):
+    """ Returns the time, message, and word count from the commit """
 
     print("+++ Extracting Data From Commit +++")
 
@@ -38,6 +48,7 @@ def extractDataFromCommit(repoDir, commit, fileName, tempFile):
 
 
 def buildDataList(repoDir, fileName, tempFile):
+    """ Builds a ditionary of three lists: wordCounts, commitDates, and commitMsgs """
 
     print("+++ Build Data List +++")
     dataLists = {"wordCounts": [], "commitDates": [], "commitMsgs": []}
