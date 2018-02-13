@@ -24,7 +24,7 @@ def makeNewDir(name):
 def cloneRepo(remoteUrl, directory):
     """ Clones the git repository from remoteURL into directory"""
 
-    print("+++ Cloning Repo +++")
+    print("+++ Cloning Repository, Please Wait +++")
     assert os.path.exists(directory)
 
     if not os.path.exists(directory + "/.git"):

@@ -47,3 +47,6 @@ def plotData(fileName):
     plt.ylabel('Word Count')
     plt.title("Thesis Word Count")
     plt.show()
+
+    plt.savefig(fileName+'Plot.png', bbox_inches='tight')
+    plt.savefig(fileName+'Plot.pdf', bbox_inches='tight')
