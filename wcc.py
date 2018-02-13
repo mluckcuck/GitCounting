@@ -11,12 +11,12 @@ print("+++ Begin +++")
 parser = argparse.ArgumentParser()
 parser.add_argument("--url", help="The URL of your repository")
 parser.add_argument("--file", help="File name you wish to word count")
+parser.add_argument("--annotate", help="Flag; if presenet, then display the commit message of every 10th commit", action='store_true')
 args = parser.parse_args()
 
 REMOTE_URL = args.url
 FILENAME = args.file
-
-
+ANNOTATE = args.annotate
 
 
 #REMOTE_URL = "https://ml881:Mercian1588@bitbucket.org/ml881/thesis.git"
@@ -35,4 +35,4 @@ json.dump(dataList, jsonDataFile)
 jsonDataFile.close()
 completeTime = round(time.time() - startTime, 2)
 print ("+++ DONE (" + str(completeTime) + " seconds) +++")
-wccPlot.plotData(DATA_FILE)
+wccPlot.plotData(DATA_FILE, ANNOTATE)

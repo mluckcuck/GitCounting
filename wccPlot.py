@@ -17,8 +17,7 @@ def loadFromFile(fileName):
 
     return dataTuple
 
-
-def plotData(fileName):
+def plotData(fileName, annotate):
     """ Plots the data from the JSON file """
 
     data = loadFromFile(fileName)
@@ -39,9 +38,11 @@ def plotData(fileName):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     plt.plot_date(dateList, data[1], "o-", xdate=True)
-    #annotate every thenth point with it's commit message
-    for x, y, label in zip(dateList, data[1], data[2][0:len(data[2]):10]):
-        ax.annotate(label, xy=(x, y), textcoords='data')
+
+    if annotate is True:
+        #annotate every thenth point with it's commit message
+        for x, y, label in zip(dateList, data[1], data[2][0:len(data[2]):10]):
+            ax.annotate(label, xy=(x, y))
 
     plt.xlabel('Date')
     plt.ylabel('Word Count')
