@@ -57,4 +57,5 @@ def buildDataList(repoDir, fileName, tempFile):
 
     #Quick cleanup
     git.checkout(repo.head.commit)
+    print(dataLists)
     return dataLists

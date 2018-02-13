@@ -3,14 +3,18 @@
 import matplotlib
 import matplotlib.pyplot as plt
 from datetime import date
+from datetime import datetime
+from ast import literal_eval as make_tuple
 import json
+import time
 
 
-def loadFromFile(dataFile):
+def loadFromFile(fileName):
 
-    print("Load from", dataFile)
-    jsonFile = open(dataFile, "r")
+    print("Load from", fileName)
+    jsonFile = open(fileName, "r")
     print(jsonFile)
+
     jsonData = json.load(jsonFile)
 
     dataTuple = (jsonData["commitDates"], jsonData["wordCounts"])
@@ -18,15 +22,20 @@ def loadFromFile(dataFile):
     return dataTuple
 
 
-def plotData(dataFile):
+def plotData(fileName):
 
-    data = loadFromFile(dataFile)
+    data = loadFromFile(fileName)
 
     dateStrings = data[0]
     dateList = []
 
     for d in dateStrings:
-        dateList.append(date.fromtimestamp(d))
+
+        dList = d.split("-")
+
+        dtObj = datetime(int(dList[0]), int(dList[1]), int(dList[2]))
+
+        dateList.append(dtObj)
 
     dateList = matplotlib.dates.date2num(dateList)
 
