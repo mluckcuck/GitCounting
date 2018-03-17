@@ -1,7 +1,7 @@
 import time
-import wccRepo
-import wccCount
-import wccPlot
+import gitCountingRepo
+import gitCountingCount
+import gitCountingPlot
 import json
 import argparse
 
