@@ -26,14 +26,14 @@ DIR_NAME = "."+FILENAME+"-temp"
 TEMP_FILE = ".count.txt"
 DATA_FILE = FILENAME + "-data.json"
 
-wccRepo.makeNewDir(DIR_NAME)
-wccRepo.cloneRepo(REMOTE_URL, DIR_NAME)
+gitCountingRepo.makeNewDir(DIR_NAME)
+gitCountingRepo.cloneRepo(REMOTE_URL, DIR_NAME)
 
-dataList = wccCount.buildDataList(DIR_NAME, FILENAME, TEMP_FILE)
+dataList = gitCountingCount.buildDataList(DIR_NAME, FILENAME, TEMP_FILE)
 jsonDataFile = open(DATA_FILE, "w")
 json.dump(dataList, jsonDataFile)
 
 jsonDataFile.close()
 completeTime = round(time.time() - startTime, 2)
 print ("+++ DONE (" + str(completeTime) + " seconds) +++")
-wccPlot.plotData(DATA_FILE, FILENAME, ANNOTATE)
+gitCountingPlot.plotData(DATA_FILE, FILENAME, ANNOTATE)
