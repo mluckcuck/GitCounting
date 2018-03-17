@@ -1,5 +1,8 @@
 # Git Counting
 
+A tool for graphing the word counts of a `.tex` document stored in a git repository.
+
+Git Counting:
 * Clones a git repo
 * For each commit in the repo
  - Finds a given (tex) file
