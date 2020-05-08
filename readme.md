@@ -15,12 +15,22 @@ Git Counting:
 
 * Pearl
 * Python3
-* git
+* Pip (for the below)
+* GitPython
+ - pip3 install gitpython
 * matplotlib
+ - pip3 install -U matplotlib
+
+## Usage
+
+``python3 gitCounting.py --url <The URL of your repository> --file <File name you wish to word count>``
+
+The parameter for ``--url`` should be the url you'd use to clone the repository, and ``--file`` should be the 'main' tex file of your document.
 
 ## To Do
 
 * Script to install dependancies
+* Make program clean up (after counting or on command, or both?)
 * Generalise to count other document types
   - Other text documents
   - Lines of Code
