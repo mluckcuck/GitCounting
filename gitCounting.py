@@ -20,7 +20,7 @@ FILENAME = args.file
 ANNOTATE = False # args.annotate
 
 
-#REMOTE_URL = "https://ml881:Mercian1588@bitbucket.org/ml881/thesis.git"
+
 #FILENAME = "thesis.tex"
 DIR_NAME = "."+FILENAME+"-temp"
 TEMP_FILE = ".count.txt"
